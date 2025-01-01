@@ -87,6 +87,7 @@ public class SmolISA{
     public static void main(String[] args) throws IOException {
         // read file
         Stream<String> stream = Files.lines(Paths.get("bruh"));
+        // The lines needs to be put inside memory not read one by one.
         stream.forEach(string -> {
             String[] instruction = string.split(" ");
             // parse file
@@ -99,19 +100,36 @@ public class SmolISA{
     
     }
 
+    // How is LOAD and STORE implemented in the CPU or logic gates?
+
     public static void parseCmd(ISAInstruction inst) {
         switch (inst.code){
             case LOD:
+                // load from r2 memory into r1 register
+                registers[(int)inst.r1] = memory[(int)inst.r2];
                 break;
             case STR:
+                // store from r2 register into r1 memory address
+                memory[(int)inst.r1] = registers[(int)inst.r2];
                 break;
             case ADD:
+                registers[(int)inst.r1] = registers[(int)inst.r1] + registers[(int)inst.r2];
                 break;
             case MUL:
+                registers[(int)inst.r1] = registers[(int)inst.r1] * registers[(int)inst.r2];
                 break;
             case DIV:
+                // don't forget to handle divide by zero
+                try{
+                    registers[(int)inst.r1] = registers[(int)inst.r1] / registers[(int)inst.r2];
+                } catch (ArithmeticException e) {
+                    registers[register.L.ordinal()] = 1;
+                }
                 break;
             case JLZ:
+                if (registers[(int)inst.r1] <= 0){
+                    registers[register.PC.ordinal()] = registers[(int)inst.r2];
+                }
                 break;
             default:
                 System.out.println("Invalid instruction code");
