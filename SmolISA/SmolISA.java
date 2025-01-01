@@ -101,6 +101,7 @@ public class SmolISA{
     }
 
     // How is LOAD and STORE implemented in the CPU or logic gates?
+    // How many bits is stored in a single memory address?
 
     public static void parseCmd(ISAInstruction inst) {
         switch (inst.code){
