@@ -88,6 +88,8 @@ public class SmolISA{
         // read file
         Stream<String> stream = Files.lines(Paths.get("bruh"));
         // The lines needs to be put inside memory not read one by one.
+        // Let's do a harvard architecture first where the instructions is coming from a file.
+        // Heap/Stack/Data is in RAM.
         stream.forEach(string -> {
             String[] instruction = string.split(" ");
             // parse file
@@ -102,6 +104,12 @@ public class SmolISA{
 
     // How is LOAD and STORE implemented in the CPU or logic gates?
     // How many bits is stored in a single memory address?
+
+    /*
+     * 1. Establish all the constants in file
+     * 2. Load all the constants into a memory section
+     * 3. Then you can continue executing
+     */
 
     public static void parseCmd(ISAInstruction inst) {
         switch (inst.code){
